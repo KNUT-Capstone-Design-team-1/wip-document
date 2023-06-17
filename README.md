@@ -1,3 +1,11 @@
-# 이게뭐약 Document
+# 협업
+#### [[코딩 컨벤션]]
+#### [[Git 규칙]]
+#### [칸반보드](https://github.com/orgs/KNUT-Capstone-Design-team-1/projects/5)
+#### [주차별 칸반보드](https://github.com/orgs/KNUT-Capstone-Design-team-1/projects/8)
 
-이게뭐약에 관련된 문서 정리입니다.
+# 개발
+
+# 운영
+
+# 기타
