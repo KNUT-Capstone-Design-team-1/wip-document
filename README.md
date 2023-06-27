@@ -5,6 +5,7 @@
 ### [주차별 칸반보드](https://github.com/orgs/KNUT-Capstone-Design-team-1/projects/8)
 
 # 개발
+### [설계 문서](https://github.com/orgs/KNUT-Capstone-Design-team-1/projects/3)
 
 # 운영
 
