@@ -5,3 +5,6 @@
 
 ## Front-End
 ### [FE 알약 인식 결과에 대한 사용자 경험](https://github.com/KNUT-Capstone-Design-team-1/document/wiki/FE-%EC%95%8C%EC%95%BD-%EC%9D%B8%EC%8B%9D-%EA%B2%B0%EA%B3%BC%EC%97%90-%EB%8C%80%ED%95%9C-%EC%82%AC%EC%9A%A9%EC%9E%90-%EA%B2%BD%ED%97%98)
+
+## 디자인
+### [피그마 주소](https://www.figma.com/file/wCMj7D09X5EyiAW2qiGIi0/%EB%AA%A8%EB%B0%94%EC%9D%BC-%EB%94%94%EC%9E%90%EC%9D%B8-%EC%8B%9C%EC%95%88?type=design&node-id=0%3A1&mode=design&t=bfAn7AtTiP6oQi2i-1)
