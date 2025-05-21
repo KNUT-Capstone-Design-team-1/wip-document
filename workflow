@@ -1,0 +1,43 @@
+# 이슈 등록
+- 이슈 템플릿 형식 준수
+- `Assignees`에는 개발자 지정 (공통 개발인 경우 여러 명 지정)
+
+# 칸반 보드 추가
+- [담당자별 칸반 보드](https://github.com/orgs/KNUT-Capstone-Design-team-1/projects/10)에 작업할 이슈를 자신에게 추가
+- 칸반보드에 작업의 우선순위를 `위에서 아래 순`으로 배치
+
+# 개발
+- 공통 네이밍 규칙
+  - 역할과 목적을 알 수 있도록 간결하고 명료하게 작성
+- 변수명
+  - 사용하는 언어의 규칙을 준수 (JavaScript: 카멜 케이스 / Python: 스네이크 케이스)
+- 상수명
+  - 언어 상관 없이 대문자 스네이크 케이스
+- 함수명
+  - 사용하는 언어의 규칙을 준수
+  - 동사 뒤에 명사를 붙여서 작명
+- 주석
+  - 코드가 어떻게 동작하는지, 무엇을 하는지에 대해서는 작성 금지
+  - 함수의 경우 함수의 역할만 간단하게 설명
+  - 코드를 간결하게 짤 수 없거나 코드가 복잡하여 코드 자체만으로 판단할 수 없는 경우에만 작성
+  - 코드의 고칠점이나 유의사항이 있다면 [코드 태그](https://2mukee.tistory.com/599)를 활용
+
+# 개발자 테스트
+- 반드시 `최신 main 브랜치 형상`을 pull 받고 코드를 실행하여 테스트 진행
+- 애플리케이션의 경우 apk, ipa로 빌드 여부까지 확인
+
+# Pull Request
+- Pull Request 템플릿 형식 준수
+- `Reviewers`에는 코드 리뷰 진행자 지정
+- `Assignees`에는 병합 담당자 지정 (코드리뷰 진행자와 동일할 수 있음)
+
+# 코드 통합
+- `main` 혹은 `master` 브랜치에 코드 변경 사항 통합
+- github action을 이용해 빌드
+- 테스트
+  - [firebase test lab](https://console.firebase.google.com/u/1/project/what-is-pill-b93dc/testlab/histories?hl=ko&fb_utm_campaign=firebase_launch_testlab_080416&fb_utm_medium=console&fb_utm_source=Play)을 통해 로보테스트 진행
+  - [구글 플레이 콘솔](https://play.google.com/console/u/0/developers/5955928426933855306/app-list?pli=1) 공개 테스트
+
+# 배포
+- 구글 플레이스토어
+  - 테스트 완료 > 프로덕션 > 새 버전 만들기 > App Bundle > 라이브러리에서 추가 > 테스트 완료된 번들 선택 > 배포
