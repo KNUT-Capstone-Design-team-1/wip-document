@@ -25,3 +25,7 @@
 # 로직
 
 1. `config.json` 파일을 읽어 그대로 반환
+
+# 클라이언트 로직
+
+1. `schemaVersion` 및 `resourceVersion`을 config 테이블에 업데이트

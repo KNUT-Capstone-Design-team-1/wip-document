@@ -38,37 +38,38 @@
 
 # 클라이언트 로직
 
-1. `schemaVersion`을 config에 업데이트
-2. DROP TABLE
-3. CREATE TABLE 쿼리에 매핑
+1. DROP TABLE
+2. CREATE TABLE 쿼리에 매핑
 
 - SQL Injection을 예방할 수 있도록 `columns`의 각 값에서 특수문자 제거
 
 ```ts
 const getReplacedString = (str: string) => str?.replace(/[^a-zA-Z0-9]/g, "");
 
-const columnPlaceHolder = columns.map((v) => {
+const columnPlaceHolder = columns
+  .map((v) => {
     const name = getReplacedString(v.name);
     const type = `${getReplacedString(v.type)} ${v.size ? `(${v.size})` : ``}`;
-    const nullable = v.nullable ? 'NULL' : 'NOT NULL';
-    
+    const nullable = v.nullable ? "NULL" : "NOT NULL";
+
     let defaultValue = `"${getReplacedString(v.defaultValue)}"`;
 
-    if (typeof v.defaultValue === 'number') {
-        defaultValue = v.defaultValue;
+    if (typeof v.defaultValue === "number") {
+      defaultValue = v.defaultValue;
     }
 
     if (v.defaultValue === null) {
-        defaultValue = 'NULL'
+      defaultValue = "NULL";
     }
 
-    return `${name} ${type} ${nullable} ${defaultValue}`
-}).join(', ');
+    return `${name} ${type} ${nullable} ${defaultValue}`;
+  })
+  .join(", ");
 
 const pkPlaceHolder = getReplacedString(columns.find((v) => v.isPK).name);
 
 const sql = `CREATE TABLE pill_data (
              ${columnPlaceHolder},
              PRIMARY KEY (${pkPlaceHolder})
-             );`
+             );`;
 ```
