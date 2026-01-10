@@ -7,10 +7,6 @@
 
 # API 스펙
 
-#### request
-
-- /:schemaVersion (URL param)
-
 #### response
 
 ```ts
