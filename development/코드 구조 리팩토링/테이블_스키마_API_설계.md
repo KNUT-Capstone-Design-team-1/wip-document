@@ -52,7 +52,7 @@ const columnPlaceHolder = columns
     const type = `${getReplacedString(v.type)} ${v.size ? `(${v.size})` : ``}`;
     const nullable = v.nullable ? "NULL" : "NOT NULL";
 
-    let defaultValue = `"${getReplacedString(v.defaultValue)}"`;
+    let defaultValue = defaultValue ? `"${getReplacedString(v.defaultValue)}"` : "";
 
     if (typeof v.defaultValue === "number") {
       defaultValue = v.defaultValue;
