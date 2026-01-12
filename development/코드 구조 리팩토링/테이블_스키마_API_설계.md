@@ -15,8 +15,6 @@
 
 ```ts
 {
-  success: boolean,
-  schemaVersion: string,
   columns: [
     {
       name: string,

@@ -11,7 +11,6 @@
 
 ```ts
 {
-  success: boolean,
   schemaVersion: number,
   dataVersion: number,
 }

@@ -18,12 +18,12 @@
 
 ```ts
 {
-  success: boolean,
-  resourceVersion: string,
-  datas: [
+  resource: [
     ...
   ],
   total: number,
+  totalPage: number,
+  current: number,
 }
 ```
 
