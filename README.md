@@ -33,22 +33,6 @@
 - [프로젝트 규칙](./development/프로젝트_규칙.md)
 - [담당자 별 담당 이슈](./development/담당자_별_담당_이슈.md)
 
-# [워크플로우](./workflow/워크플로우.md)
+# [워크플로우](./workflow/index.md)
 
-- [개발자 테스트](./workflow/pages/개발자_테스트.md)
-- [깃 컨벤션](./workflow/pages/깃_컨벤션.md)
-- [버저닝](./workflow/pages/버저닝.md)
-- [이슈 등록](./workflow/pages/이슈_등록.md)
-- [코드 컨벤션](./workflow/pages/코드_컨벤션.md)
-- [코드 통합 규칙](./workflow/pages/코드_통합_규칙.md)
-- [통합 테스트](./workflow/pages/통합_테스트.md)
-
-# 다이어그램
-
-- [시스템 아키텍처](./diagram/시스템_아키텍처.md)
-- [유스케이스](./diagram/유스케이스.md)
-- 상세 기능
-  - [데이터베이스 업데이트 플로우차트](./diagram/features/데이터베이스_업데이트_플로우차트.md)
-  - [알약 식별 검색 스크린 플로우 다이어그램](./diagram/features/알약_식별_검색_스크린_플로우_다이어그램.md)
-  - [알약 이미지 검색 스크린 플로우 다이어그램](./diagram/features/알약_이미지_검색_스크린_플로우_다이어그램.md)
-  - [필독 공지사항 체크](./diagram/features/필독_공지사항_체크.md)
+# [다이어그램](./diagram/index.md)
