@@ -1,4 +1,10 @@
-# 운영
+# 운영 (Operation)
 
-- [공지사항 작성 규칙](./공지사항_작성_규칙.md)
-- [데이터베이스 업데이트 정책](./데이터베이스_업데이트_정책.md)
+- [공지사항 작성 규칙](./notice_writing_rules.md)
+- [데이터베이스 업데이트 정책](./database_update_policy.md)
+- [개발 관련 링크](./dev_links.md)
+- [추상화](./abstraction.md)
+- [프로젝트 규칙](./project_rules.md)
+- [담당자 별 담당 이슈](./issues_by_assignee.md)
+- [깃 컨벤션](./git_convention.md)
+- [버저닝](./versioning.md)

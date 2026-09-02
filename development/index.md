@@ -1,7 +1,6 @@
-# 개발
+# 개발 (Development)
 
-- [개발 관련 링크](./개발_관련_링크.md)
-- [추상화](./추상화.md)
-- [아이디어](./아이디어.md)
-- [프로젝트 규칙](./프로젝트_규칙.md)
-- [담당자 별 담당 이슈](./담당자_별_담당_이슈.md)
+- 코드 컨벤션 (Code Convention)
+  - [공통 규칙](./code_convention/common.md)
+  - [프론트엔드 규칙](./code_convention/frontend.md)
+  - [백엔드 규칙](./code_convention/backend.md)

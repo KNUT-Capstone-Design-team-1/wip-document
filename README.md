@@ -9,10 +9,9 @@
 
 # 즐겨찾기
 
-- [릴리즈 노트](./product/릴리즈_노트.md)
-- [추상화](./development/추상화.md)
-- [개발 관련 링크](./development/개발_관련_링크.md)
-- [아이디어](./development/아이디어.md)
+- [릴리즈 노트](./product/release_notes.md)
+- [추상화](./operation/abstraction.md)
+- [개발 관련 링크](./operation/dev_links.md)
 
 # 문서
 
@@ -21,7 +20,5 @@
 #### [프로덕트](./product/index.md)
 
 #### [개발](./development/index.md)
-
-#### [워크플로우](./workflow/index.md)
 
 #### [다이어그램](./diagram/index.md)

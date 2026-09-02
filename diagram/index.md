@@ -1,9 +1,5 @@
-# 다이어그램
+# 다이어그램 (Diagrams)
 
-- [시스템 아키텍처](./시스템_아키텍처.md)
-- [유스케이스](./유스케이스.md)
-- 상세 기능
-  - [데이터베이스 업데이트 플로우차트](./features/데이터베이스_업데이트_플로우차트.md)
-  - [알약 식별 검색 스크린 플로우 다이어그램](./features/알약_식별_검색_스크린_플로우_다이어그램.md)
-  - [알약 이미지 검색 스크린 플로우 다이어그램](./features/알약_이미지_검색_스크린_플로우_다이어그램.md)
-  - [필독 공지사항 체크](./features/필독_공지사항_체크.md)
+- [시스템 아키텍처 (System Architecture)](./system_architecture.md)
+- [유스케이스 (Usecase)](./usecase.md)
+- [기능별 스크린 플로우차트 (Screen Flowcharts)](./screen_flow.md)

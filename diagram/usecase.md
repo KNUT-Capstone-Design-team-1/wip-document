@@ -4,14 +4,18 @@ flowchart LR
 
     %% 알약 검색
     subgraph pill_search[알약 검색]
+        unified_search[통합 검색]
         pill_identification_search[알약 식별 검색]
         pill_image_search[이미지 검색]
+        pill_search_result_list[검색 결과 목록]
 
         pill_detail[알약 상세 정보]
         save_pill[알약 정보 저장]
 
-        pill_identification_search --> pill_detail
+        unified_search --> pill_search_result_list
+        pill_identification_search --> pill_search_result_list
         pill_image_search --> pill_detail
+        pill_search_result_list --> pill_detail
         pill_detail --> save_pill
     end
 

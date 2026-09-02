@@ -25,6 +25,7 @@ flowchart LR
         wip-resource-data["wip-resource-data Cloud Run Serverless"]
         wip-pill-detail["wip-pill-detail Cloud Run Serverless"]
         wip-log["wip-log Cloud Run Serverless"]
+        wip-external-url["wip-external-url Cloud Run Serverless"]
 
         wip-pill-image-feature-extraction["wip-pill-image-feature-extraction Cloud Run Serverless"]
         Pill_Info_Extractor["Pill_Info_Extractor Vertax AI"]
