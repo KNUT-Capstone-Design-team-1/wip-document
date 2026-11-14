@@ -1,24 +1,57 @@
-# 프로젝트에서 사용하는 데이터베이스
+# 데이터베이스 업데이트 정책
 
-#### 알약 데이터베이스 (매월 15일 업데이트)
+앱이 사용하는 공공 리소스의 범위와 동기화 절차입니다. 2026-11-14 로컬 코드 기준이며, 원천 기관의 갱신 주기·리소스 배포·기기 동기화는 서로 구분합니다.
 
-- [의약품 낱알식별](https://nedrug.mfds.go.kr/pbp/CCBGA01/getItem?totalPages=8&limit=10&page=2&&openDataInfoSeq=11)
-  - 매일 새벽 4시 업데이트
-- [의약품 제품허가 상세정보](https://nedrug.mfds.go.kr/pbp/CCBGA01/getItem?totalPages=8&limit=10&page=2&&openDataInfoSeq=12)
-  - 매일 새벽 4시 업데이트
+## 리소스 범위
 
-#### 주변 약국 데이터베이스 (매월 15일 업데이트)
+`wip-application-v2/src/services/database/types/config.ts`의 `ALL_DATA_TABLES` 기준입니다.
 
-- [전국 병의원 및 약국 현황 / 2.약국정보서비스](https://opendata.hira.or.kr/op/opc/selectOpenData.do?sno=11925&publDataTpCd=&searchCnd=ttl&searchWrd=%EC%A0%84%EA%B5%)
-  - 분기에 한 번 업데이트
+| 테이블                                | 용도                                              | 원천·생성 경로                                      |
+| ------------------------------------- | ------------------------------------------------- | --------------------------------------------------- |
+| `pill_data`                           | 의약품 기본·허가·낱알 식별 정보, 효능 키워드·요약 | 식약처 의약품 낱알식별·제품 허가정보 및 리소스 가공 |
+| `mark_images`                         | 알약 식별 마크                                    | 리소스 생성 단계의 마크 이미지 수집                 |
+| `nearby_pharmacies`                   | 약국 위치·연락처·영업시간                         | 생활안전정보 약국 데이터                            |
+| `cannabis`                            | 대마 성분 분류                                    | 마약정보데이터베이스 공개 자료                      |
+| `narcotics`                           | 마약 성분 분류                                    | 마약정보데이터베이스 공개 자료                      |
+| `psychotropics`                       | 향정신성 성분 분류                                | 마약정보데이터베이스 공개 자료                      |
+| `prohibited_list`                     | 도핑 금지 성분 분류                               | 한국도핑방지위원회 공개 자료                        |
+| `functional_food_classification`      | 건강기능식품 기능성 기준                          | 식품안전나라 I2710                                  |
+| `health_functional_food_raw_material` | 건강기능식품 제품·원재료와 연결된 분류 ID         | 식품안전나라 C003 및 리소스 가공                    |
 
-#### 마약 정보 데이터 베이스 (매년 1월 1일 업데이트)
+건강기능식품의 `CLASSIFICATION_IDS`는 분류 ID의 JSON 배열이며 로컬 조회에서 연결합니다. 앱의 현재 동기화 대상은 위 9개 테이블입니다. 서버에 남아 있는 다른 스키마 파일만으로 앱 사용 테이블이라고 판단하지 않습니다.
 
-- [마약정보데이터베이스](https://www.nifds.go.kr/toxinfo/kind/kr/index.do)
-  - 법령 정보가 바뀌었을 때 업데이트
+## 리소스 배포 운영 기준
 
-#### 도핑 금지 목록 (매년 1월 1일 업데이트)
+기존 문서의 운영 목표는 의약품·약국 리소스 매월 15일, 성분·도핑 자료 매년 1월 1일 갱신입니다. 건강기능식품·마크의 별도 정기 배포 주기는 코드에서 확인하지 못했습니다. 이 날짜들은 자동 스케줄의 실행 증거가 아니며 실제 실행 여부는 배포 기록으로 확인합니다.
 
-- [도핑 금지 목록](https://www.kada-ad.or.kr/kada?where=drug/drug_info_method)
-  - 매년 9월 말 ~ 10월 초 세계도핑방지기구 (WADA)에서 다음 연도 금지 목록을 발표
-  - 다음 해 1월 1일 전세계에서 자동 발효 및 적용
+원천 기관의 제공 주기나 연간 목록 발효일은 이 저장소에서 보장하지 않습니다. 리소스를 생성할 때 사용한 원천 자료의 기준일을 확인하고 데이터 버전에 반영합니다.
+
+1. `wip-resource-deployer`에서 대상 리소스의 생성·정규화 결과와 실패 목록을 확인합니다.
+2. 리소스 타입별 지원 업로드 경로를 확인하고 JSON·검색 데이터를 배포합니다.
+3. 필요한 서버 스키마와 데이터 버전을 함께 갱신합니다. 앱에 새 컬럼·테이블이 필요한 변경은 스키마 버전도 갱신합니다.
+4. 통합 검색의 D1 품목번호와 앱 리소스의 품목번호가 맞는지 확인합니다.
+5. 기존 앱에서 업데이트 감지·설치·조회까지 확인합니다.
+
+## 앱 동기화
+
+앱은 특정 날짜에 직접 원천 API를 수집하지 않습니다. 기동 시 서버의 스키마·데이터 버전과 로컬 config를 비교합니다.
+
+- 모든 리소스가 업데이트 대상이거나, 건강기능식품 테이블이 처음 추가되어 기존 스키마 버전이 0이면 필수 업데이트입니다.
+- 중단 상태가 `downloading`, `download_completed`, `installing`으로 남아 있으면 재실행 시 자동으로 업데이트를 진행합니다.
+- 그 밖의 업데이트는 확인 모달로 사용자가 선택합니다.
+- 페이지를 병렬 수신하여 파일 캐시로 저장한 뒤 구조·누락을 검증합니다.
+- SQLite에 반영하고 삽입 행 개수를 확인한 후 성공한 테이블의 버전을 갱신합니다. 현재 검증은 기대 건수가 양수인데 삽입 결과가 0건인 경우를 감지하며, 전체 건수의 정확한 일치를 검사하지 않습니다.
+- 실패 시 캐시·상태 정리와 지연 재시도를 수행합니다. 전체 업데이트를 한 번에 롤백하는 구조로 설명하지 않습니다.
+- 포그라운드 복귀 시 저장된 진행 상태를 UI에 반영합니다. 앱이 OS에 의해 중지된 동안 계속 다운로드된다고 보장하지 않습니다.
+
+보관함·복용 알림 등 사용자 로컬 테이블은 공공 리소스 교체 대상에 포함하지 않습니다. 의약품 효능·용법·주의사항 상세 문서는 별도 상세 API로 조회합니다.
+
+## 구현 근거
+
+- 버전·필수 업데이트 판단: `src/features/database_update/utils/updateCheck.ts`
+- 확인 및 중단 복구: `src/features/database_update/services/database_bootstrap_service.ts`
+- 파이프라인: `src/features/database_update/services/database_sync_orchestrator.ts`, `services/pipeline/`
+- 다운로드·캐시·진행 상태: `src/features/database_update/services/database_download_service.ts`, `services/download/`
+- 리소스 생성: `wip-resource-deployer/README.md`, `src/services/`
+
+[동기화 데이터 흐름](../diagram/data_flow.md) / [동기화 테스트](../test/1_database_sync.md)

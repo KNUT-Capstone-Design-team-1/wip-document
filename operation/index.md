@@ -3,7 +3,7 @@
 - [공지사항 작성 규칙](./notice_writing_rules.md)
 - [데이터베이스 업데이트 정책](./database_update_policy.md)
 - [개발 관련 링크](./dev_links.md)
-- [추상화](./abstraction.md)
+- [서비스 및 기능 정의](./abstraction.md)
 - [프로젝트 규칙](./project_rules.md)
 - [담당자 별 담당 이슈](./issues_by_assignee.md)
 - [깃 컨벤션](./git_convention.md)

@@ -1,115 +1,110 @@
-# Screen Flowcharts
+# 화면 흐름
 
-## 1. Unified Search (통합 검색)
+`app/`의 Expo Router 경로와 기능별 이동 코드를 기준으로 작성했습니다. 화면 안의 모달·바텀시트와 별도 라우트를 구분합니다.
+
+## 1. 시작 및 주요 진입
+
 ```mermaid
 flowchart TD
-    subgraph UnifiedSearchScreen[통합 검색 화면]
-        SearchInput[검색어 입력창]
-        SearchButton[검색 버튼]
-        RecentSearch[최근 검색어 목록]
-    end
-    
-    SearchInput -->|텍스트 입력| SearchButton
-    SearchButton -->|클릭| PillSearchResultListScreen[검색 결과 목록 화면]
-    RecentSearch -->|아이템 클릭| PillSearchResultListScreen
+    Launch[앱 실행] --> Init[외부 설정 · 로컬 DB 초기화]
+    Init --> Version{리소스 업데이트 필요?}
+    Version -->|없음| Tabs[메인 탭]
+    Version -->|선택 업데이트| Prompt[업데이트 확인 모달]
+    Prompt -->|나중에| Tabs
+    Prompt -->|진행| Sync[다운로드 · 검증 · DB 반영]
+    Version -->|필수 또는 중단된 업데이트| Sync
+    Sync --> Tabs
+    Tabs --> Home["홈 /"]
+    Tabs --> Save["보관함 /pill-save"]
+    Tabs --> Pharmacy["주변 약국 /nearby-pharmacy"]
+    Tabs --> Setting["설정 /setting"]
 ```
 
-## 2. Pill Identification Search (알약 식별 검색)
+## 2. 의약품 검색 및 상세
+
 ```mermaid
 flowchart TD
-    subgraph PillIdentificationSearchScreen[알약 식별 검색 화면]
-        ShapeSelect[모양 선택 버튼]
-        ColorSelect[색상 선택 버튼]
-        LineSelect[분할선 선택 버튼]
-        MarkInput[마크 입력창]
-        SearchButton[검색 버튼]
-    end
-
-    ShapeSelect -->|선택| SearchButton
-    ColorSelect -->|선택| SearchButton
-    LineSelect -->|선택| SearchButton
-    MarkInput -->|입력| SearchButton
-    SearchButton -->|클릭| PillSearchResultListScreen[검색 결과 목록 화면]
+    Home[홈] --> Unified["통합 검색 /unified-search<br/>검색어 · 최근 검색어"]
+    Home --> Identify["식별 검색 /pill-identification-search<br/>문자 · 제품 · 회사 · 외형 조건"]
+    Home --> Image["이미지 검색 /pill-image-search"]
+    Image --> Input["앞면과 뒷면 사진 등록<br/>앨범 · 파일 · 카메라"]
+    Input --> Camera["촬영 /camera"]
+    Camera --> Input
+    Input --> Analyze[원격 AI 특징 추출]
+    Analyze --> Candidates[로컬 후보 검색]
+    Unified --> Results["검색 결과 /pill-search-result-list"]
+    Identify --> Results
+    Candidates --> Results
+    Results --> More["추가 로드<br/>통합 검색 커서 · 로컬 검색 페이지"]
+    More --> Results
+    Results --> Research[검색 조건 확인 · 수정 · 재검색]
+    Research --> Results
+    Results --> Detail["의약품 상세 /pill-search-result-detail<br/>ITEM_SEQ"]
+    Detail --> Find[상세 내 키워드 찾기]
+    Detail --> Folder["폴더 선택 모달<br/>상세 화면에서 저장"]
+    Detail --> Inquiry[재고 문의 안내 모달]
+    Inquiry --> Pharmacy["약국 문의 /nearby-pharmacy-inquiry"]
 ```
 
-## 3. Pill Image Search (알약 이미지 검색)
+이미지 검색에는 앞뒷면 사진이 모두 필요합니다. 특징 인식 실패·API 실패 시 안내 후 검색 화면에 머뭅니다. 통합 검색의 빈 결과도 안내 후 현재 화면에 머뭅니다. 상세 저장 버튼은 폴더 선택 모달을 열며 보관함 탭으로 즉시 이동하지 않습니다.
+
+## 3. 영양제 검색 및 상세
+
 ```mermaid
 flowchart TD
-    subgraph PillImageSearchScreen[알약 이미지 검색 화면]
-        CameraButton[카메라 촬영 버튼]
-        GalleryButton[갤러리 선택 버튼]
-        ImageCrop[이미지 크롭 및 확인]
-        SearchButton[검색 버튼]
-    end
-
-    CameraButton -->|촬영| ImageCrop
-    GalleryButton -->|선택| ImageCrop
-    ImageCrop -->|확인| SearchButton
-    SearchButton -->|클릭| PillDetailScreen[알약 상세 정보 화면]
+    Home[홈] --> Search["영양제 검색 /functional-food-search"]
+    Search --> Filter[제품명 · 업체명 · 제품 형태]
+    Filter --> List[동일 화면에서 목록 및 추가 로드]
+    List --> Detail["영양제 상세 /functional-food-detail<br/>reportNumber"]
+    Detail --> Product[제품 · 원재료 · 섭취 방법 · 주의사항]
+    Detail --> Standards[연결된 기능성 기준]
+    Detail --> Folder[공통 폴더 선택 모달]
+    Search --> External[식품안전나라 외부 페이지]
 ```
 
-## 4. Pill Search Result List (검색 결과 목록)
+## 4. 보관함 및 복용 알림
+
 ```mermaid
 flowchart TD
-    subgraph PillSearchResultListScreen[검색 결과 목록 화면]
-        ResultItem[알약 검색 결과 리스트 아이템]
-        FilterButton[필터 버튼]
-        SortButton[정렬 버튼]
-    end
-
-    FilterButton -->|클릭| ResultItem
-    SortButton -->|클릭| ResultItem
-    ResultItem -->|클릭| PillDetailScreen[알약 상세 정보 화면]
+    Save["보관함 /pill-save"] --> Folder["폴더 상세 /pill-save-folder/[id]"]
+    Save --> Edit[폴더 생성 · 이름 변경 · 정렬 · 삭제]
+    Folder --> Items[의약품 · 영양제 저장 목록]
+    Items --> Kind{항목 종류}
+    Kind -->|의약품| Drug[의약품 상세]
+    Kind -->|영양제| Food[영양제 상세]
+    Folder --> Transfer[항목 선택 · 이동 · 복사 · 삭제]
+    Save --> Reminders["복용 알림 목록 /pill-reminder"]
+    Items --> Specific[항목별 복용 알림 바텀시트]
+    Specific --> Form["알림 설정 /pill-reminder-setting"]
+    Reminders --> Form
+    Form --> Selection[보관 항목 선택 모달]
+    Selection --> Form
+    Form --> Schedule[복용량 · 시간 · 요일 · 제목 · 메모 저장]
+    Schedule --> OS[OS 로컬 알림 예약]
+    OS --> Tap[알림 본체 선택]
+    Tap --> Form
+    OS --> Snooze[5분 뒤 다시 알림]
 ```
 
-## 5. Pill Detail (알약 상세 정보)
+## 5. 주변 약국 및 설정
+
 ```mermaid
 flowchart TD
-    subgraph PillDetailScreen[알약 상세 정보 화면]
-        SaveButton[보관함 저장 버튼]
-        ShareButton[공유 버튼]
-        InfoTab[기본 정보/주의사항 탭]
-    end
-
-    SaveButton -->|클릭| PillSaveScreen[알약 보관함 화면]
-    InfoTab -->|탭 전환| PillDetailScreen
+    Pharmacy[주변 약국 또는 재고 문의 화면] --> Permission[위치 권한 확인]
+    Permission --> Map[지도 · 약국 마커 · 클러스터]
+    Map --> Research[지도 이동 후 현재 위치에서 검색]
+    Research --> Map
+    Map --> Open[현재 영업 중 필터]
+    Open --> Map
+    Map --> Card[단일 약국 카드 또는 클러스터 목록]
+    Card --> Call[전화 앱 연결]
+    Card --> Copy[주소 복사]
+    Setting[설정] --> Info["앱 정보 /app-info<br/>앱 및 DB 버전"]
+    Setting --> Terms["이용약관 /terms"]
+    Setting --> Notice["공지 목록 /notice"]
+    Notice --> Detail["공지 상세 /notice-detail"]
+    Setting --> Clear[최근 조회 기록 삭제 확인 모달]
+    Setting --> Delete[모든 복용 알림 삭제 확인 모달]
 ```
 
-## 6. Pill Save (알약 보관함)
-```mermaid
-flowchart TD
-    subgraph PillSaveScreen[알약 보관함 화면]
-        SavedPillItem[보관된 알약 아이템]
-        DeleteButton[삭제 버튼]
-    end
-
-    SavedPillItem -->|클릭| PillDetailScreen[알약 상세 정보 화면]
-    DeleteButton -->|클릭| PillSaveScreen
-```
-
-## 7. Nearby Pharmacy (주변 약국)
-```mermaid
-flowchart TD
-    subgraph NearbyPharmacyScreen[주변 약국 화면]
-        MapView[지도 뷰]
-        PharmacyMarker[약국 마커]
-        PharmacyDetail[약국 상세 정보 바텀시트]
-    end
-
-    MapView -->|이동| PharmacyMarker
-    PharmacyMarker -->|클릭| PharmacyDetail
-```
-
-## 8. Setting (설정)
-```mermaid
-flowchart TD
-    subgraph SettingScreen[설정 화면]
-        NoticeButton[공지사항 버튼]
-        TermsButton[이용약관 버튼]
-        ClearDataButton[데이터 초기화 버튼]
-    end
-
-    NoticeButton -->|클릭| NoticeScreen[공지사항 화면]
-    TermsButton -->|클릭| TermsScreen[이용약관 화면]
-    ClearDataButton -->|클릭| Dialog[확인 다이얼로그]
-```
+설정의 '기록 삭제'는 최근 조회 의약품 기록에 적용됩니다. 최근 검색어는 통합 검색 화면의 관리 기능과 구분합니다.
